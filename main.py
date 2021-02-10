@@ -3,10 +3,12 @@ Main script
 
 """
 import cv2
+import numpy as np
 
 from auto_correspondences import auto
 from manual_correspondencies import manual
 from homography import homography
+from accuracy import accuracy
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -19,19 +21,18 @@ if __name__ == '__main__':
 
     #Get autocorrspondences and homography matrix
     auto_pts1, auto_pts2, auto_H = auto().keypoints()
-    #print("Auto pts1", auto_pts1)
-    print("Auto pts1.type", type(auto_pts1), auto_pts1.shape)
-    #print("Auto pts2", auto_pts1)
+    pre_auto, rmse_auto = accuracy().acc(auto_pts1, auto_pts2, auto_H)
+    print("Autocorrespondence precision:", pre_auto)
+    print("Autocorrespondence rmse:", rmse_auto)
+    #Visualise homography predicted points:
 
-    acc_auto = 0.8         #Get accuracy
-    print("Autocorrespondence accuracy:", acc_auto)
+
 
     #Get manual correspondeces and homography matrix:
     man_pts1, man_pts2 = manual().keypoints()
-    print("Man pts1", man_pts1)
-    print("Man pts2", man_pts2)
-
     man_H = homography(man_pts1,man_pts2, img1, img2).get_h()  #Get homography matrix and save correspondences image
-
-    acc_manual = 0.8
-    print("Manual correspondence accuracy:", acc_manual)
+    print("manH", man_H)
+    pre_manual, rmse_manual = accuracy().acc(man_pts1,man_pts2,man_H)
+    print("Manual correspondence precision:", pre_manual)
+    print("Manual correspondence rmse:", rmse_manual)
+    #Visualise homography predicted points:

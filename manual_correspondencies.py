@@ -69,6 +69,7 @@ class manual():
         # (x, y) coordinates
         if event == cv2.EVENT_LBUTTONDOWN:
             self.refPt2.append([(x, y)])
+            print(x,y)
             cv2.circle(self.image2, (x, y), 5, (0, 255, 0), -1)
 
 # test = manual()
