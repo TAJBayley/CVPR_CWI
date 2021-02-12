@@ -51,7 +51,7 @@ class Calibration:
             corner = tuple(np.squeeze(corner))
             cv2.circle(image, corner, 4, (0, 255, 0), -1)
             cv2.putText(image, 'press any key to continue', (50, 50),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
             cv2.drawChessboardCorners(image, self.patternSize, corners, retval)
 
         cv2.imshow('corners', image)
@@ -70,4 +70,15 @@ class Calibration:
             print('translation vector', tvecs)
         else:
             print('unable to calibrate')
+        self.mtx = mtx
+        self.dist = dist
         return mtx, rvecs, tvecs
+
+    def undist(self, image):
+        try:
+            undistorted = cv2.undistort(image, self.mtx, self.dist, None, self.mtx)
+            return undistorted
+        except AttributeError:
+            print('mtx and dist not defined, make sure to get parameters')
+        print('Unable to distort image so returning original image')
+        return image
