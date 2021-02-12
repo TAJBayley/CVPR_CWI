@@ -12,8 +12,9 @@ from matplotlib import pyplot as plt
 
 class auto():
     #Automatic keypoint detection
-    def __init__(self, input_data = 0):
-        self.input_data = input_data
+    def __init__(self, img1, img2):
+        self.img1 = img1
+        self.img2 = img2
 
     def keypoints(self):
         print("Finding auto keypoints")
@@ -21,8 +22,8 @@ class auto():
         MIN_MATCH_COUNT = 10
         INT_TRIGGER = 1 #if this is 1, keypoints found are rounded to integer precision, to make them comparible to manual keypoints
 
-        img1 = cv2.imread('input_data/gingerbread1.png', 1)  # queryImage
-        img2 = cv2.imread('input_data/gingerbread2.png', 1)  # trainImage
+        img1 = self.img1
+        img2 = self.img2
         print("Loaded images")
 
         # Initiate SIFT detector

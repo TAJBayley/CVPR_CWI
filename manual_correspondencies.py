@@ -12,18 +12,15 @@ import argparse
 
 class manual():
     #Automatic keypoint detection
-    def __init__(self, input_data = 0):
-        self.input_data = input_data
+    def __init__(self, img1, img2):
+        self.image = img1
+        self.image2 = img2
         self.refPt1 = []
         self.refPt2 = []
         self.num_keypoints = 0
 
     def keypoints(self):
         print("Finding keypoints")
-
-        # load the image, clone it, and setup the mouse callback function
-        self.image = cv2.imread('input_data/gingerbread1.png')
-        self.image2 = cv2.imread('input_data/gingerbread2.png')
 
         cv2.namedWindow("IMAGE1")
         cv2.setMouseCallback("IMAGE1", self.clickImage1)   #not sure what this does?????
