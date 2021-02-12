@@ -1,3 +1,9 @@
+"""
+Script containing function to downsize image by scale given as a percentage of original size
+
+Thomas Bayley
+11/02/21
+"""
 import cv2
 
 
