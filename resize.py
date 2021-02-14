@@ -1,5 +1,5 @@
 """
-Script containing function to downsize image by scale given as a percentage of original size
+Script containing function to downsize image to scale given as a percentage of original size
 
 Thomas Bayley
 11/02/21
