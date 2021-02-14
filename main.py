@@ -3,31 +3,25 @@ Main script
 
 """
 import cv2
-import numpy as np
 
-from auto_correspondences import auto
-from manual_correspondencies import manual
-from homography import homography
-from accuracy import accuracy
-from calibration import Calibration
-from fundamental import Fundamental
-from resize import resize
+from CVPR_CW1.threeD_two import threeD
+from stereo_depth import depth_map
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print('Running main')
 
-    # Initialise calibration object
-    image = cv2.imread('input_data/fd_6.JPG')
-    test = Calibration(img_size=resize(image, 30).shape)
-    # Get corners for all images
-    for i in range(8, 10):
-        image = cv2.imread('input_data/fd_{}.JPG'.format(i))
-        image = resize(image, 30)
-        test.getCorners(image)
-
-    # Get Intrinsic and Extrinsic matrices:
-    K, R, t = test.parameters()
+    # # Initialise calibration object
+    # image = cv2.imread('input_data/fd_6.JPG')
+    # test = Calibration(img_size=resize(image, 30).shape)
+    # # Get corners for all images
+    # for i in range(8, 10):
+    #     image = cv2.imread('input_data/fd_{}.JPG'.format(i))
+    #     image = resize(image, 30)
+    #     test.getCorners(image)
+    #
+    # # Get Intrinsic and Extrinsic matrices:
+    # K, R, t = test.parameters()
     #
     # image = cv2.imread('input_data/fd_8.JPG')
     # image = resize(image, 30)
@@ -40,7 +34,7 @@ if __name__ == '__main__':
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
 
-    # # Load the data:
+    # Load the data:
     # img1 = cv2.imread('input_data/hg_1.JPG')  # queryImage
     # img1 = resize(img1, 30)
     # img2 = cv2.imread('input_data/hg_2.JPG')  # trainImage
@@ -84,3 +78,15 @@ if __name__ == '__main__':
     # cv2.imwrite('output_images/auto_epipolar_RANSAC_2.png',fund.img2)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
+
+    # Get 3D depth map and epipolar lines on stereorectified images
+    # Load the data:
+    img1 = cv2.imread('input_data/fd_1.JPG')  # queryImage
+    img2 = cv2.imread('input_data/fd_2.JPG')  # trainImage
+
+    threeDobj = threeD(img1,img2)
+    img1_rectified, img2_rectified = threeDobj.stereo_rectify() #stereo rectifies, and plots horozontal parallel epipolar lines
+    threeDobj.depth_map_rectified(img1_rectified,img2_rectified) #create the depth map from the rectified images
+    threeDobj.depth_map()
+    print("rectified image dimensions:", img2_rectified.shape)
+    depth_map(img1_rectified,img2_rectified)
