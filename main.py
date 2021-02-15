@@ -81,8 +81,8 @@ if __name__ == '__main__':
 
     # Get 3D depth map and epipolar lines on stereorectified images
     # Load the data:
-    img1 = cv2.imread('input_data/fd_1.JPG')  # queryImage
-    img2 = cv2.imread('input_data/fd_2.JPG')  # trainImage
+    img1 = cv2.imread('input_data/multi_obj_1.JPG')  # queryImage
+    img2 = cv2.imread('input_data/multi_obj_2.JPG')  # trainImage
 
     threeDobj = threeD(img1,img2)
     img1_rectified, img2_rectified = threeDobj.stereo_rectify() #stereo rectifies, and plots horozontal parallel epipolar lines

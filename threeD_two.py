@@ -145,6 +145,15 @@ class threeD():
                                      blockSize=15)  # numDisparities is window size, must be divisible by 16
 
         disparity = stereo.compute(imgL, imgR)
-        plt.imshow(disparity, 'gray')
-        plt.title("Disparity")
+
+        local_max = disparity.max()
+        local_min = disparity.min()
+        print("MAX " + str(local_max))
+        print("MIN " + str(local_min))
+        disparity_visual = (disparity - local_min) * (1.0 / (local_max - local_min))
+
+
+
+        plt.imshow(disparity_visual, 'gray')
+        plt.title("Depth map")
         plt.show()
