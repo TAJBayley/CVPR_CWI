@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import colorsys
-
+from rectification import *
 
 class Fundamental:
 
@@ -131,4 +131,19 @@ class Fundamental:
                 cv2.line(self.img2, (x0, y0), (x1, y1), colour, 2)
                 cv2.circle(self.img2, tuple(np.squeeze(pt)), 4, colour, -1)
             i += 1
+        return
+
+    def vanishingLines(self):
+        edgelets1 = compute_edgelets(self.img1)
+        vp1 = ransac_vanishing_point(edgelets1, num_ransac_iter=2000,
+                                     threshold_inlier=5)
+        vp1 = reestimate_model(vp1, edgelets1, threshold_reestimate=5)
+        vis_model(self.img1, vp1) # Visualize the vanishing point model
+
+        edgelets2 = remove_inliers(vp1, edgelets1, 50)
+        vp2 = ransac_vanishing_point(edgelets2, num_ransac_iter=2000,
+                                     threshold_inlier=5)
+        vp2 = reestimate_model(vp2, edgelets2, threshold_reestimate=5)
+        vis_model(self.img1, vp2) # Visualize the vanishing point model
+        vis_2_model(self.img1, vp1, vp2)
         return
