@@ -17,17 +17,17 @@ from resize import resize
 if __name__ == '__main__':
     print('Running main')
 
-    # Initialise calibration object
-    image = cv2.imread('input_data/fd_6.JPG')
-    test = Calibration(img_size=resize(image, 30).shape)
-    # Get corners for all images
-    for i in range(8, 10):
-        image = cv2.imread('input_data/fd_{}.JPG'.format(i))
-        image = resize(image, 30)
-        test.getCorners(image)
-
-    # Get Intrinsic and Extrinsic matrices:
-    K, R, t = test.parameters()
+    # # Initialise calibration object
+    # image = cv2.imread('input_data/fd_6.JPG')
+    # test = Calibration(img_size=resize(image, 30).shape)
+    # # Get corners for all images
+    # for i in range(8, 10):
+    #     image = cv2.imread('input_data/fd_{}.JPG'.format(i))
+    #     image = resize(image, 30)
+    #     test.getCorners(image)
+    #
+    # # Get Intrinsic and Extrinsic matrices:
+    # K, R, t = test.parameters()
     #
     # image = cv2.imread('input_data/fd_8.JPG')
     # image = resize(image, 30)
@@ -64,16 +64,17 @@ if __name__ == '__main__':
     # print("Manual correspondence rmse:", rmse_manual)
     # # Visualise homography predicted points:
 
-    # # Load the data:
-    # img1 = cv2.imread('input_data/hg_1.JPG')  # queryImage
-    # img1 = resize(img1, 30)
-    # img2 = cv2.imread('input_data/hg_2.JPG')  # trainImage
-    # img2 = resize(img2, 30)
-    #
-    # print("Loaded images")
-    #
-    # # Get fundamental matrix from correspondences
-    # fund = Fundamental(img1, img2, method='auto')
+    # Load the data:
+    img1 = cv2.imread('input_data/hg_1.JPG')  # queryImage
+    img1 = resize(img1, 30)
+    img2 = cv2.imread('input_data/hg_2.JPG')  # trainImage
+    img2 = resize(img2, 30)
+
+    print("Loaded images")
+
+    # Get fundamental matrix from correspondences
+    fund = Fundamental(img1, img2, method='auto')
+    fund.vanishingLines()
     # F = fund.getFundamental(algo=cv2.FM_RANSAC)
     # print('F',F)
     # fund.epilines(index=1)
